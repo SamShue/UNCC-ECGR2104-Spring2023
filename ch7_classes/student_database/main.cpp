@@ -3,11 +3,35 @@
 
 using namespace std;
 
-double average(vector<double> v);
-
 class Student {
     public:
-    string name;
+    Student(string n, int i, vector<double> g){
+        cout << "Constructor called!" << endl;
+        name = n;
+        setId(i);
+        
+        for(int i = 0; i < g.size(); i++){
+            addGrade(g.at(i));
+        }
+    }
+    
+    Student(string n, int i) : name(n) {
+        cout << "Constructor called!" << endl;
+        setId(i);
+    }
+    
+    Student(){
+        name = "Undefined";
+        id = -1;
+    }
+    
+    void setName(string n){
+        name = n;
+    }
+    
+    string getName() const {
+        return name;
+    }
     
     void addGrade(double g){
         if(g > 4.0 || g < 0.0){
@@ -18,7 +42,7 @@ class Student {
         grades.push_back(g);
     }
     
-    vector<double> getGrades(){
+    vector<double> getGrades() const {
         return grades;
     }
     
@@ -31,38 +55,54 @@ class Student {
         }
     }
     
-    int getId(){
+    int getId() const {
         return id;
+    }
+    
+    double getGpa() const {
+        if(grades.size() == 0){
+            return 4.0;
+        }
+        
+        double sum = 0.0;
+        for(int i = 0; i < grades.size(); i++)
+            sum = sum + grades.at(i);
+        return sum/(double)grades.size();
     }
     
     private:
     int id;
     vector<double> grades;
+    string name;
 };
 
 int main(){
     vector<Student> students;
     
     // Stand-in for collecting data from user
-    Student s;
-    s.name = "Bob";
-    s.setId(800000001);
-    s.addGrade(3.0);
-    s.addGrade(4.0);
+    vector<double> temp = {4.0, 3.0, 2.0, 33.0};
+    Student s("Bob", 800000001, temp);
+    //s.setName("Bob");
+    //s.setId(800000001);
+    //s.addGrade(3.0);
+    //s.addGrade(4.0);
     
-    Student s1;
-    s1.name = "Joe";
-    s1.setId(7);
-    s1.addGrade(3.0);
-    s1.addGrade(6.0);
+    Student s1("Joe", 7, temp);
+    //s1.setName("Joe");
+    //s1.setId(7);
+    //s1.addGrade(3.0);
+    //s1.addGrade(6.0);
+    
+    Student s2("Mary", 800000002);
     
     students.push_back(s);
     students.push_back(s1);
+    students.push_back(s2);
     
     for(int i = 0; i < students.size(); i++){
-        cout << students.at(i).name << endl;
+        cout << students.at(i).getName() << endl;
         cout << students.at(i).getId() << endl;
-        cout << average(students.at(i).getGrades()) << endl;
+        cout << students.at(i).getGpa() << endl;
     }
     
     /*
@@ -91,12 +131,5 @@ int main(){
     }
     */
     return 0;
-}
-
-double average(vector<double> v){
-    double sum = 0.0;
-    for(int i = 0; i < v.size(); i++)
-        sum = sum + v.at(i);
-    return sum/(double)v.size();
 }
 
