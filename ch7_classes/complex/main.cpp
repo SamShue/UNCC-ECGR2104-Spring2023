@@ -1,56 +1,7 @@
-// 3 + 5i
-
 #include <iostream>
+#include "complex.h"
 
 using namespace std;
-
-class Complex{
-    public:
-    double real;
-    double imag;
-    
-    Complex(double r, double i){
-        real = r;
-        imag = i;
-    }
-    
-    void print(){
-        cout << real << " + " << imag << "i" << endl;
-    }
-    
-    
-    Complex add(const Complex& c){
-        Complex result(0,0);
-        result.real = real + c.real;
-        result.imag = imag + c.imag;
-        return result;
-    }
-    
-    Complex operator+(const Complex& c){
-        Complex result(0,0);
-        result.real = real + c.real;
-        result.imag = imag + c.imag;
-        return result;
-    }
-    
-    Complex operator-(const Complex& c){
-        Complex result(0,0);
-        result.real = real - c.real;
-        result.imag = imag - c.imag;
-        return result;
-    }
-    
-    void addToMyself(const Complex& c){
-        real += c.real;
-        imag += c.imag;
-    }
-    
-    void operator+=(const Complex& c){
-        real += c.real;
-        imag += c.imag;
-    }
-    
-};
 
 int main(){
     
