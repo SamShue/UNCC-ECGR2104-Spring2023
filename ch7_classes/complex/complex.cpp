@@ -1,19 +1,10 @@
-#include <iostream>
-
-struct Complex{
-    double real;
-    double imag;
-    
-    Complex(double real, double imag);
-    void print();
-    Complex add(const Complex& c);
-    Complex operator+(const Complex& c);
-    Complex operator-(const Complex& c);
-    void addToMyself(const Complex& c);
-    void operator+=(const Complex& c);
-};
+#include "complex.h"
 
 using namespace std;
+
+void foo(){
+    cout << "Hello" <<endl;
+}
 
 Complex::Complex(double real, double imag){
     this->real = real;
