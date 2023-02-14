@@ -20,6 +20,7 @@ int main(){
     foo(&x);
     
     cout << p << endl;
+    cout << *p << endl;
     
     
     return 0;
