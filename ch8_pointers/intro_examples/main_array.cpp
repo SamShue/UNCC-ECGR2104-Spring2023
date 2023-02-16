@@ -9,7 +9,7 @@ int main(){
     int d = 6;
     
     cout << a << endl;
-    cout << &a[1] << endl;
+    cout << a + 1 << endl;
     cout << &a[2] << endl;
     cout << &b << endl;
     cout << &c << endl;

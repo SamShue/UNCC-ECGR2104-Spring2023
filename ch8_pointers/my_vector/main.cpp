@@ -10,6 +10,35 @@ class MyVector{
         a = new int[arraySize];
     }
     
+    MyVector(const MyVector& rhs){
+        cout << "Copy Constructor called!" << endl;
+        nextIdx = rhs.nextIdx;
+        arraySize = rhs.arraySize;
+        
+        a = new int[arraySize];
+        for(int i = 0; i < nextIdx; i++){
+            a[i] = rhs.at(i);
+        }
+    }
+    
+    ~MyVector(){
+        cout << "Destructor called!" << endl;
+        delete[] a;
+    }
+    
+    void operator=(const MyVector& rhs){
+        cout << "Assignment operator override called!" << endl;
+        delete[] a;
+        
+        nextIdx = rhs.nextIdx;
+        arraySize = rhs.arraySize;
+        
+        a = new int[arraySize];
+        for(int i = 0; i < nextIdx; i++){
+            a[i] = rhs.at(i);
+        }
+    }
+    
     void push_back(int val){
         if(nextIdx == arraySize){
             cout << "Reallocating more space..." << endl;
@@ -30,7 +59,7 @@ class MyVector{
         nextIdx--;
     }
     
-    int at(int idx){
+    int& at(int idx) const{
         return a[idx];
     }
     
@@ -38,19 +67,18 @@ class MyVector{
         return nextIdx;
     }
     
-    private:
     int* a;
+    
+    private:
+    
     int nextIdx;
     int arraySize;
 };
 
-int main(){
+
+void makesProblem(){
     MyVector v;
     
-    v.push_back(10);
-    v.push_back(8);
-    v.push_back(5);
-    v.push_back(7);
     v.push_back(10);
     v.push_back(8);
     v.push_back(5);
@@ -60,10 +88,37 @@ int main(){
     v.pop_back();
     
     v.push_back(20);
+    v.at(0) = 40;
     
     for(int i = 0; i < v.size(); i++){
         cout << v.at(i) << endl;
     }
+    
+    MyVector v2;
+    v2.push_back(10);
+    v2.push_back(8);
+    v2.push_back(5);
+    v2.push_back(7);
+    
+    v2 = v;
+    
+    for(int i = 0; i < v2.size(); i++){
+        cout << v2.at(i) << endl;
+    }
+    
+    MyVector v3 = v;
+    
+    cout << "End of function call!" << endl;
+}
+
+int main(){
+    
+    makesProblem();
+    
+    makesProblem();
+    
+    makesProblem();
+
     
     return 0;
 }
