@@ -19,7 +19,6 @@ int main(){
     p[2] = 5;
     delete[] p;
     
-    
     cout << a[2] << endl;
     cout << *(a + 2) << endl;
     

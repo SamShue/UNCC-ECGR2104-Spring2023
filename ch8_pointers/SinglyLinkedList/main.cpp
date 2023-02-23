@@ -20,18 +20,32 @@ void push_back(Node*& head, int data){
         currentNode = currentNode->next;
     }
     
-    currentNode->next = new Node;
+    (*currentNode).next = new Node;
     (currentNode->next)->next = nullptr;
     (currentNode->next)->data = data;
 }
 
 void pop_back(Node*& head){
-    
     Node* currentNode = head;
+    
+    // No elements in list
+    if(head == nullptr){
+        return;
+    }
+    
+    // 1 element in list
+    if(currentNode->next == nullptr){
+        delete head;
+        head = nullptr;
+        return;
+    }
     
     while(currentNode->next->next != nullptr){
         currentNode = currentNode->next;
     }
+    
+    delete currentNode->next;
+    currentNode->next = nullptr;
     
 }
 
@@ -46,18 +60,63 @@ int at(Node* head, int index){
     return currentNode->data;
 }
 
+void insert(Node*& head, int index, int data){
+    
+    if(index == 0){
+        Node* temp = head;
+        head = new Node;
+        head->data = data;
+        head->next = temp;
+        return;
+    }
+    
+    Node* currentNode = head;
+    int i = 0;
+    while(i < index - 1){
+        currentNode = currentNode->next;
+        i++;
+    }
+    
+    Node* temp = currentNode->next;
+    currentNode->next = new Node;
+    currentNode->next->data = data;
+    currentNode->next->next = temp;
+}
+
+void remove(Node*& head, int index){
+    if(index == 0){
+        Node* temp = head->next;
+        delete head;
+        head = temp;
+        return;
+    }
+    
+    Node* currentNode = head;
+    int i = 0;
+    while(i < index - 1){
+        currentNode = currentNode->next;
+        i++;
+    }
+    
+    Node* temp = currentNode->next->next;
+    delete currentNode->next;
+    currentNode->next = temp;
+}
+
 int main(){
     Node* head = nullptr;
     
     push_back(head, 2);
     push_back(head, 10);
     push_back(head, 3);
+    push_back(head, 40);
+    
+    remove(head,1);
     
     cout << at(head, 0) << endl;
     cout << at(head, 1) << endl;
     cout << at(head, 2) << endl;
-    
-    
+
     /*
     head = new Node;
     
