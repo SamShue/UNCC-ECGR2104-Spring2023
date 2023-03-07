@@ -1,13 +1,37 @@
-#include <iostream>
+#include "singly_linked_list.h"
 
-using namespace std;
+SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList& rhs){
+    cout << "Copy constructor called!" << endl;
+    head = nullptr;
+    for(int i = 0; i < rhs.size(); i++){
+        push_back(rhs.at(i));
+    }
+}
 
-struct Node{
-    int data;
-    Node* next;
-};
+void SinglyLinkedList::operator=(const SinglyLinkedList& rhs){
+    cout << "Copy assignment override called!" << endl;
+    // free the original list
+    while(head != nullptr){
+        Node* temp = head->next;
+        delete head;
+        head = temp;
+    }
+    // copy rhs list
+    for(int i = 0; i < rhs.size(); i++){
+        push_back(rhs.at(i));
+    }
+}
 
-void push_back(Node*& head, int data){
+SinglyLinkedList::~SinglyLinkedList(){
+    cout << "Destructor called!" << endl;
+    while(head != nullptr){
+        Node* temp = head->next;
+        delete head;
+        head = temp;
+    }
+}
+
+void SinglyLinkedList::push_back(int data){
     if(head == nullptr){
         head = new Node;
         head->data = data;
@@ -25,7 +49,7 @@ void push_back(Node*& head, int data){
     (currentNode->next)->data = data;
 }
 
-void pop_back(Node*& head){
+void SinglyLinkedList::pop_back(){
     Node* currentNode = head;
     
     // No elements in list
@@ -49,7 +73,7 @@ void pop_back(Node*& head){
     
 }
 
-int at(Node* head, int index){
+int& SinglyLinkedList::at(int index) const{
     Node* currentNode = head;
     int i = 0;
     while(i < index){
@@ -60,7 +84,7 @@ int at(Node* head, int index){
     return currentNode->data;
 }
 
-void insert(Node*& head, int index, int data){
+void SinglyLinkedList::insert(int index, int data){
     
     if(index == 0){
         Node* temp = head;
@@ -83,7 +107,7 @@ void insert(Node*& head, int index, int data){
     currentNode->next->next = temp;
 }
 
-void remove(Node*& head, int index){
+void SinglyLinkedList::remove(int index){
     if(index == 0){
         Node* temp = head->next;
         delete head;
@@ -103,42 +127,18 @@ void remove(Node*& head, int index){
     currentNode->next = temp;
 }
 
-void foo(){
-    Node* head = nullptr;
+int SinglyLinkedList::size() const{
+    Node* temp = head;
+    int count = 0;
     
-    // do stuff
-    push_back(head, 5);
-    push_back(head, 4);
+    if(temp == nullptr){
+        return count;
+    }
     
+    while(temp != nullptr){
+        temp = temp->next;
+        count++;
+    }
     
-    // garbage collection
-    
-}
-
-int main(){
-    Node* head = nullptr;
-    
-    push_back(head, 2);
-    push_back(head, 10);
-    push_back(head, 3);
-    push_back(head, 40);
-    
-    remove(head,1);
-    
-    cout << at(head, 0) << endl;
-    cout << at(head, 1) << endl;
-    cout << at(head, 2) << endl;
-
-    /*
-    head = new Node;
-    
-    head->data = 2;
-    head->next = nullptr;
-    
-    (head->next) = new Node;
-    (head->next)->next = nullptr;
-    (head->next)->data = 10;
-    */
-    
-    return 0;
+    return count;
 }
