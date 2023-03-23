@@ -1,0 +1,4 @@
+This is an example text file.
+This is an additional line.
+Another one.
+"Hello World!"
