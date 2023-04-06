@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -17,6 +19,8 @@ class Question {
             return 0;
     }
     
+    virtual void askQuestion() = 0;
+
     protected:
     bool isCorrect;
     string text;
@@ -64,15 +68,39 @@ class ShortAnswerQuestion : public Question {
     string correctAnswer;
 };
 
+class MathQuestion : public Question {
+    public:
+    MathQuestion(string text, int points, double correctAnswer) : 
+        Question(text, points) {
+        this->correctAnswer = correctAnswer;
+    }
+    
+    void askQuestion(){
+        cout << "Short Answer:" << endl;
+        cout << text << endl;
+        string answer;
+        cin >> answer;
+        isCorrect = std::abs(stod(answer) - correctAnswer) < 0.0001;  
+    }
+    
+    private:
+    double correctAnswer;
+};
+
 int main(){
+    vector<Question*> quiz;
+    quiz.push_back(new TrueFalseQuestion("The sky is blue.", 10, true));
+    quiz.push_back(new ShortAnswerQuestion("What language is taught in ECGR 2104?", 10, "c++"));
+    quiz.push_back(new TrueFalseQuestion("C++ lines of code end in a semicolon.", 10, true));
+    quiz.push_back(new MathQuestion("What is 2 + 2?", 10, 4.0));
     
-    TrueFalseQuestion q1("Is the sky blue?", 10, true);
-    ShortAnswerQuestion q2("What language is taught in ECGR 2104?", 10, "c++");
+    int score = 0;
+    for(int i = 0; i < quiz.size(); i++){
+        quiz.at(i)->askQuestion();
+        score += quiz.at(i)->getPoints();
+    }
     
-    q1.askQuestion();
-    q2.askQuestion();
-    
-    cout << "You scored: " << q1.getPoints() + q2.getPoints() << endl;
+    cout << "You scored: " << score << endl;
     
     return 0;
 }
